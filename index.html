@@ -511,7 +511,7 @@
 
     <!-- ============ FOOTER / GALERIE ============ -->
     <footer class="footer">
-      <a class="gallery-btn" href="gallery.html" onclick="window.location.href='gallery.html'; return false;">
+      <a class="gallery-btn" id="galleryLink" href="gallery.html">
         <span class="cam">📸</span> Galerie photos
       </a>
       <div class="gallery-note">Disponible après l'événement</div>
@@ -528,6 +528,11 @@
       entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
     },{ threshold:.16 });
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    document.getElementById('galleryLink').addEventListener('click', function(e){
+      e.preventDefault();
+      window.location.href = 'gallery.html';
+    });
   </script>
 </body>
 </html>
