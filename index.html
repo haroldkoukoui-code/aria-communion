@@ -48,7 +48,7 @@
     max-width:430px;
     background:var(--pearl);
     position:relative;
-    overflow:hidden;
+    overflow:clip;
     box-shadow:0 30px 80px -20px rgba(60,50,30,.45);
   }
 
@@ -511,7 +511,7 @@
 
     <!-- ============ FOOTER / GALERIE ============ -->
     <footer class="footer">
-      <a class="gallery-btn" href="gallery.html">
+      <a class="gallery-btn" href="gallery.html" onclick="window.location.href='gallery.html'; return false;">
         <span class="cam">📸</span> Galerie photos
       </a>
       <div class="gallery-note">Disponible après l'événement</div>
