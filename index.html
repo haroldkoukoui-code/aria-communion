@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Première Communion d'Aria — Dimanche 7 juin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Parisienne&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --pearl:#FBF7EF;
+    --ivory:#F4ECDE;
+    --gold:#C7A24B;
+    --gold-soft:#D9C18A;
+    --turq:#3FA0A8;
+    --turq-deep:#2C7C84;
+    --coral:#E6917A;
+    --coral-soft:#EBB1A0;
+    --ink:#4A4337;
+    --ink-soft:#7A7263;
+    --white-warm:#FFFDF8;
+
+    --serif:"Cormorant Garamond", Georgia, serif;
+    --script:"Parisienne", cursive;
+    --sans:"Jost", system-ui, sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ -webkit-text-size-adjust:100%; }
+
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:
+      radial-gradient(120% 60% at 50% 0%, #EFE6D6 0%, #E3D7C2 45%, #CFC3AC 100%);
+    background-attachment:fixed;
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    width:100%;
+    max-width:430px;
+    background:var(--pearl);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 30px 80px -20px rgba(60,50,30,.45);
+  }
+
+  /* ---------- shared section rhythm ---------- */
+  section{ position:relative; padding:64px 30px; }
+
+  .eyebrow{
+    font-family:var(--sans);
+    font-weight:400;
+    font-size:12px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .section-title{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:33px;
+    line-height:1.15;
+    letter-spacing:.01em;
+    margin:14px 0 4px;
+  }
+  .section-emoji{ font-size:30px; display:block; line-height:1; }
+
+  p.lead{ font-weight:300; font-size:16px; color:var(--ink-soft); }
+
+  a{ color:inherit; }
+
+  .divider{
+    display:flex; align-items:center; justify-content:center;
+    gap:14px; margin:6px 0 30px;
+  }
+  .divider::before,.divider::after{
+    content:""; height:1px; width:46px;
+    background:linear-gradient(90deg, transparent, var(--gold-soft));
+  }
+  .divider::after{ transform:scaleX(-1); }
+  .divider span{ font-size:15px; opacity:.8; }
+
+  /* =================================================================
+     HERO
+  ================================================================= */
+  .hero{
+    padding:0 0 56px;
+    text-align:center;
+    background:
+      radial-gradient(150% 80% at 50% -10%, #FFFFFF 0%, var(--white-warm) 30%, var(--pearl) 70%);
+  }
+  .hero-glow{
+    position:absolute; top:-120px; left:50%; transform:translateX(-50%);
+    width:360px; height:360px; pointer-events:none;
+    background:radial-gradient(circle, rgba(199,162,75,.30), transparent 65%);
+    filter:blur(8px);
+  }
+  .hero-top{
+    padding:46px 30px 0;
+    position:relative;
+  }
+  .hero-dove{ font-size:34px; line-height:1; filter:saturate(.85); }
+  .hero-kicker{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:21px;
+    color:var(--ink-soft);
+    margin-top:18px;
+  }
+  .hero-title{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:31px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    line-height:1.25;
+    margin-top:4px;
+    color:var(--ink);
+  }
+  .hero-name{
+    font-family:var(--script);
+    font-size:92px;
+    line-height:.9;
+    color:var(--gold);
+    margin:6px 0 2px;
+    text-shadow:0 2px 18px rgba(199,162,75,.28);
+  }
+
+  /* portrait photo */
+  .portrait-wrap{
+    position:relative;
+    width:230px; height:290px;
+    margin:30px auto 28px;
+  }
+  .portrait{
+    position:relative;
+    width:100%; height:100%;
+    border-radius:140px 140px 8px 8px;
+    overflow:hidden;
+    border:1px solid rgba(199,162,75,.4);
+    box-shadow:
+      0 0 0 7px var(--white-warm),
+      0 0 0 8px rgba(199,162,75,.45),
+      0 22px 40px -16px rgba(80,65,35,.45);
+  }
+  .portrait img{ width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+
+  .portrait-wrap .spark{ position:absolute; font-size:20px; }
+  .portrait-wrap .s1{ top:-6px; left:-2px; }
+  .portrait-wrap .s2{ bottom:24px; right:-10px; font-size:16px; }
+  .portrait-wrap .s3{ top:54px; right:-14px; font-size:14px; }
+
+  /* date pill */
+  .date-block{ margin-top:6px; }
+  .date-block .d-label{
+    font-size:12px; letter-spacing:.4em; text-transform:uppercase; color:var(--ink-soft);
+  }
+  .date-block .d-main{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:30px;
+    letter-spacing:.02em;
+    color:var(--turq-deep);
+    margin-top:8px;
+    display:inline-flex; align-items:center; gap:14px;
+  }
+  .date-block .d-main::before,
+  .date-block .d-main::after{
+    content:""; width:20px; height:1px; background:var(--gold);
+  }
+  .hero-flowers{ font-size:20px; margin-top:26px; letter-spacing:.3em; }
+
+  /* =================================================================
+     INTRO QUOTE
+  ================================================================= */
+  .intro{
+    background:linear-gradient(180deg, var(--pearl), var(--ivory));
+    text-align:center;
+    padding-top:54px; padding-bottom:54px;
+  }
+  .quote-mark{ font-family:var(--serif); font-size:80px; line-height:.4; color:var(--gold-soft); height:42px; display:block; }
+  .intro blockquote{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:25px;
+    line-height:1.45;
+    color:var(--ink);
+    padding:0 6px;
+  }
+  .intro .flourish{ margin-top:26px; font-size:18px; letter-spacing:.3em; opacity:.85; }
+
+  /* =================================================================
+     PROGRAMME
+  ================================================================= */
+  .programme{ background:var(--ivory); padding-top:50px; }
+  .programme-head{ text-align:center; margin-bottom:8px; }
+
+  .card{
+    background:var(--white-warm);
+    border:1px solid rgba(199,162,75,.22);
+    border-radius:18px;
+    padding:30px 26px;
+    margin-top:26px;
+    box-shadow:0 14px 30px -22px rgba(80,65,35,.5);
+    position:relative;
+  }
+  .card .c-emoji{
+    font-size:26px; line-height:1;
+    display:inline-flex; align-items:center; justify-content:center;
+    width:54px; height:54px; border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #FFFFFF, var(--ivory));
+    box-shadow:inset 0 0 0 1px rgba(199,162,75,.3), 0 6px 14px -8px rgba(80,65,35,.5);
+    margin-bottom:14px;
+  }
+  .card h3{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:25px;
+    line-height:1.2;
+    color:var(--ink);
+  }
+  .card .sub{ font-size:14px; color:var(--ink-soft); font-weight:300; margin-top:2px; }
+
+  .timeline{ margin-top:18px; }
+  .t-row{
+    display:flex; gap:16px; align-items:baseline;
+    padding:9px 0;
+    border-top:1px dashed rgba(199,162,75,.3);
+  }
+  .t-row:first-child{ border-top:none; }
+  .t-time{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:18px;
+    color:var(--turq-deep);
+    min-width:74px;
+    letter-spacing:.01em;
+  }
+  .t-text{ font-size:15px; font-weight:300; color:var(--ink); }
+
+  .map-link{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:18px;
+    font-size:13px; font-weight:400; letter-spacing:.04em;
+    color:var(--turq-deep);
+    text-decoration:none;
+    border:1px solid rgba(63,160,168,.4);
+    background:rgba(63,160,168,.07);
+    padding:10px 16px; border-radius:999px;
+    transition:background .2s, transform .15s;
+  }
+  .map-link:active{ transform:scale(.97); }
+  .map-link .pin{ font-size:14px; }
+  .map-link .arrow{ font-size:11px; opacity:.7; }
+
+  .feature-list{ list-style:none; margin-top:16px; display:grid; gap:11px; }
+  .feature-list li{
+    font-size:15px; font-weight:300; color:var(--ink);
+    display:flex; gap:11px; align-items:flex-start; line-height:1.45;
+  }
+  .feature-list li .fi{ font-size:17px; flex-shrink:0; line-height:1.3; }
+
+  .card.sea{
+    background:linear-gradient(170deg, #F0FAFA 0%, var(--white-warm) 60%);
+    border-color:rgba(63,160,168,.3);
+  }
+  .card.sea .c-emoji{
+    background:radial-gradient(circle at 40% 35%, #FFFFFF, #E1F2F2);
+    box-shadow:inset 0 0 0 1px rgba(63,160,168,.35), 0 6px 14px -8px rgba(40,90,95,.5);
+  }
+  .card.sea .t-time{ color:var(--turq-deep); }
+
+  .seam{
+    height:120px;
+    background:linear-gradient(180deg, var(--ivory) 0%, #DCE9DF 45%, #C6E0E2 100%);
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .seam .waves{ font-size:24px; letter-spacing:.35em; opacity:.85; }
+
+  .excursion{
+    background:linear-gradient(180deg, #C6E0E2 0%, #A9D4D6 100%);
+    padding-top:46px;
+  }
+  .excursion .section-title,.excursion .programme-head .eyebrow{ color:var(--turq-deep); }
+  .excursion .eyebrow{ color:var(--turq-deep); }
+
+  /* =================================================================
+     CLÔTURE — sunset
+  ================================================================= */
+  .cloture{
+    text-align:center;
+    color:var(--white-warm);
+    background:
+      linear-gradient(180deg,
+        #A9D4D6 0%,
+        #8FC2BE 18%,
+        #C9A98E 52%,
+        var(--coral) 78%,
+        #D77E66 100%);
+    padding:64px 30px 56px;
+  }
+  .cloture .sun{ font-size:40px; line-height:1; }
+  .cloture .c-quote{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:23px;
+    line-height:1.5;
+    margin-top:22px;
+    text-shadow:0 1px 12px rgba(120,60,40,.3);
+  }
+  .cloture .sig-label{
+    margin-top:30px; font-size:12px; letter-spacing:.4em; text-transform:uppercase; opacity:.9;
+  }
+  .cloture .sig{
+    font-family:var(--script);
+    font-size:64px; line-height:.9;
+    margin-top:2px;
+    color:var(--white-warm);
+    text-shadow:0 2px 16px rgba(120,60,40,.35);
+  }
+  .cloture .sig .star{ font-size:24px; -webkit-text-fill-color:initial; }
+
+  .dress{
+    margin:30px auto 0;
+    max-width:300px;
+    background:rgba(255,253,248,.16);
+    border:1px solid rgba(255,255,255,.4);
+    backdrop-filter:blur(4px);
+    border-radius:14px;
+    padding:16px 20px;
+    font-size:14px; font-weight:300; letter-spacing:.01em;
+    line-height:1.5;
+  }
+  .dress b{ font-weight:500; letter-spacing:.06em; }
+
+  /* =================================================================
+     FOOTER — gallery button
+  ================================================================= */
+  .footer{
+    background:#2B2620;
+    color:#E8E0D2;
+    text-align:center;
+    padding:48px 30px 54px;
+  }
+  .gallery-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--sans); font-weight:400; font-size:15px; letter-spacing:.06em;
+    color:#2B2620;
+    background:linear-gradient(180deg, var(--gold-soft), var(--gold));
+    border:none; border-radius:999px;
+    padding:16px 30px;
+    cursor:pointer;
+    text-decoration:none;
+    box-shadow:0 12px 26px -12px rgba(199,162,75,.7);
+    transition:transform .15s, box-shadow .2s, filter .2s;
+  }
+  .gallery-btn:active{ transform:scale(.97); }
+  .gallery-btn .cam{ font-size:17px; }
+  .gallery-note{
+    margin-top:14px; font-size:12px; letter-spacing:.06em; color:#9C9384; font-weight:300;
+  }
+  .footer .fdiv{ margin:30px auto 0; width:50px; height:1px; background:rgba(232,224,210,.25); }
+  .footer .fname{
+    font-family:var(--script); font-size:34px; color:var(--gold-soft); margin-top:22px; line-height:1;
+  }
+  .footer .fmeta{ margin-top:8px; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#8C8474; }
+
+  /* gentle reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="hero-top">
+        <span class="hero-dove">🕊️</span>
+        <div class="hero-kicker">J'ai la joie de vous inviter à ma</div>
+        <h1 class="hero-title">Première<br/>Communion</h1>
+        <div class="hero-name">Aria</div>
+
+        <div class="portrait-wrap reveal">
+          <span class="spark s1">✨</span>
+          <span class="spark s2">🌸</span>
+          <span class="spark s3">🌿</span>
+          <div class="portrait">
+            <img src="assets/aria.jpg" alt="Aria" style="object-position:60% 20%;" />
+          </div>
+        </div>
+
+        <div class="date-block">
+          <div class="d-label">Le grand jour</div>
+          <div class="d-main">Dimanche 7 juin</div>
+        </div>
+
+        <div class="hero-flowers">🌸 ✝️ 🌊</div>
+      </div>
+    </section>
+
+    <!-- ============ INTRO QUOTE ============ -->
+    <section class="intro">
+      <span class="quote-mark">"</span>
+      <blockquote class="reveal">J'aurai la joie de partager avec vous cette journée si particulière de ma première communion.</blockquote>
+      <div class="flourish reveal">✨ 🌸 ✨</div>
+    </section>
+
+    <!-- ============ PROGRAMME : matinée ============ -->
+    <section class="programme">
+      <div class="programme-head">
+        <span class="eyebrow">Le programme du jour</span>
+        <h2 class="section-title">Une journée à célébrer<br/>ensemble</h2>
+      </div>
+      <div class="divider"><span>🌿</span></div>
+
+      <!-- Cérémonie -->
+      <article class="card reveal">
+        <span class="c-emoji">🕊️</span>
+        <h3>Célébration</h3>
+        <p class="sub">Église Don Bosco</p>
+        <div class="timeline">
+          <div class="t-row"><span class="t-time">10h30</span><span class="t-text">Accueil des invités</span></div>
+          <div class="t-row"><span class="t-time">10h45</span><span class="t-text">Début de la célébration</span></div>
+        </div>
+        <a class="map-link" href="https://maps.app.goo.gl/5K5YfKDjxLbSXmdy5" target="_blank" rel="noopener">
+          <span class="pin">📍</span> Itinéraire vers l'église <span class="arrow">↗</span>
+        </a>
+      </article>
+
+      <!-- Déjeuner -->
+      <article class="card reveal">
+        <span class="c-emoji">🌸</span>
+        <h3>Déjeuner en famille<br/>et entre amis</h3>
+        <p class="sub">À l'issue de la messe · 7 Esplanade de l'Europe</p>
+        <ul class="feature-list">
+          <li><span class="fi">🥂</span> Repas festif et convivial</li>
+          <li><span class="fi">🎂</span> Gâteau de communion</li>
+          <li><span class="fi">🌿</span> Un moment de partage entre proches</li>
+        </ul>
+        <a class="map-link" href="https://maps.google.com/?q=7+Esplanade+de+l%27Europe+Montpellier" target="_blank" rel="noopener">
+          <span class="pin">📍</span> 7 Esplanade de l'Europe <span class="arrow">↗</span>
+        </a>
+      </article>
+    </section>
+
+    <!-- transition mer -->
+    <div class="seam"><span class="waves">🌊 ⛵ 🌊</span></div>
+
+    <!-- ============ EXCURSION : après-midi ============ -->
+    <section class="excursion">
+      <div class="programme-head">
+        <span class="eyebrow">L'après-midi en mer</span>
+        <h2 class="section-title">⛵ Excursion sur<br/>l'étang de Thau</h2>
+      </div>
+      <div class="divider"><span>🪸</span></div>
+
+      <article class="card sea reveal">
+        <span class="c-emoji">🌅</span>
+        <h3>Au fil de l'eau</h3>
+        <p class="sub">Départ du port de Bouzigues · environ 4 heures</p>
+        <div class="timeline">
+          <div class="t-row"><span class="t-time">16h30</span><span class="t-text">Embarquement au port de Bouzigues</span></div>
+          <div class="t-row"><span class="t-time">~21h30</span><span class="t-text">Retour au port</span></div>
+        </div>
+
+        <ul class="feature-list">
+          <li><span class="fi">🦪</span> Découverte des parcs à huîtres</li>
+          <li><span class="fi">🏖️</span> Escale plage &amp; baignade — n'oubliez pas vos maillots !</li>
+          <li><span class="fi">🌅</span> Apéritif dînatoire au coucher du soleil</li>
+          <li><span class="fi">🥂</span> Temps de partage et de détente</li>
+        </ul>
+
+        <a class="map-link" href="https://maps.app.goo.gl/pPtbfGAZv3Htg1id6" target="_blank" rel="noopener">
+          <span class="pin">📍</span> Port de Bouzigues <span class="arrow">↗</span>
+        </a>
+        <a class="map-link" href="https://evasion-thau.fr/" target="_blank" rel="noopener" style="margin-top:10px;">
+          <span class="pin">⛵</span> Évasion Thau — l'excursion <span class="arrow">↗</span>
+        </a>
+      </article>
+    </section>
+
+    <!-- ============ CLÔTURE ============ -->
+    <section class="cloture">
+      <span class="sun">🌅</span>
+      <p class="c-quote reveal">Merci de votre présence à mes côtés pour célébrer cette belle étape de ma vie.</p>
+      <div class="sig-label">Avec tout mon cœur,</div>
+      <div class="sig">Aria <span class="star">✨</span></div>
+
+      <div class="dress reveal">
+        <b>👗 DRESS CODE</b><br/>
+        Du blanc — haut, bas, ou comme vous voulez ✨
+      </div>
+    </section>
+
+    <!-- ============ FOOTER / GALERIE ============ -->
+    <footer class="footer">
+      <a class="gallery-btn" href="gallery.html">
+        <span class="cam">📸</span> Galerie photos
+      </a>
+      <div class="gallery-note">Disponible après l'événement</div>
+
+      <div class="fdiv"></div>
+      <div class="fname">Aria</div>
+      <div class="fmeta">7 juin · Étang de Thau</div>
+    </footer>
+
+  </main>
+
+  <script>
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{ threshold:.16 });
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
