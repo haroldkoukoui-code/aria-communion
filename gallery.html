@@ -128,14 +128,23 @@
     .lb {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.88); z-index: 100;
-      align-items: center; justify-content: center; padding: 20px;
+      align-items: center; justify-content: center;
+      padding: 60px 20px 80px; flex-direction: column; gap: 16px;
     }
     .lb.open { display: flex; }
-    .lb img { max-width: 100%; max-height: 82vh; border-radius: 8px; object-fit: contain; }
+    .lb img { max-width: 100%; max-height: 75vh; border-radius: 8px; object-fit: contain; }
     .lb-close {
       position: absolute; top: 14px; right: 18px;
       font-size: 2rem; color: white; background: none; border: none; cursor: pointer;
     }
+    .lb-dl {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px; border-radius: 30px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      font-family: var(--sans); font-size: 0.88rem; color: white;
+      font-weight: 400; letter-spacing: 0.04em; text-decoration: none;
+    }
+    .lb-dl:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -176,6 +185,7 @@
   <div class="lb" id="lb">
     <button class="lb-close" id="lbClose">✕</button>
     <img id="lbImg" src="" alt="" />
+    <button class="lb-dl" id="lbDl">⬇️ Enregistrer la photo</button>
   </div>
 
   <script>
@@ -304,19 +314,42 @@
     document.getElementById('refreshBtn').addEventListener('click', loadPhotos);
 
     // Lightbox
+    var currentUrl = '';
     function openLb(url) {
+      currentUrl = url;
       document.getElementById('lbImg').src = url;
       document.getElementById('lb').classList.add('open');
     }
-    document.getElementById('lbClose').addEventListener('click', function() {
+    function closeLb() {
       document.getElementById('lb').classList.remove('open');
       document.getElementById('lbImg').src = '';
-    });
+      currentUrl = '';
+    }
+    document.getElementById('lbClose').addEventListener('click', closeLb);
     document.getElementById('lb').addEventListener('click', function(e) {
-      if (e.target === this) {
-        this.classList.remove('open');
-        document.getElementById('lbImg').src = '';
-      }
+      if (e.target === this) closeLb();
+    });
+
+    // Téléchargement
+    document.getElementById('lbDl').addEventListener('click', function() {
+      if (!currentUrl) return;
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = 'Téléchargement...';
+      fetch(currentUrl)
+        .then(function(r) { return r.blob(); })
+        .then(function(blob) {
+          var ext = blob.type.split('/')[1] || 'jpg';
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'aria-communion-' + Date.now() + '.' + ext;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(a.href);
+        })
+        .catch(function() { alert('Impossible de télécharger. Fais un appui long sur la photo.'); })
+        .finally(function() { btn.disabled = false; btn.textContent = '⬇️ Enregistrer la photo'; });
     });
 
     loadPhotos();
