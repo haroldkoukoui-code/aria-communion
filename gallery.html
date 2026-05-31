@@ -205,6 +205,24 @@
     var BUCKET        = 'communion-aria';
     var BASE          = SUPABASE_URL + '/storage/v1';
 
+    // Token unique par appareil — stocké dans le navigateur
+    function getSessionToken() {
+      var key = 'aria_upload_token';
+      var token = localStorage.getItem(key);
+      if (!token) {
+        token = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
+        localStorage.setItem(key, token);
+      }
+      return token;
+    }
+    var SESSION_TOKEN = getSessionToken();
+
+    // Extrait le token du nom de fichier (format : photo_{token}_{timestamp}_{rand}.ext)
+    function tokenFromName(name) {
+      var parts = name.split('_');
+      return parts.length >= 2 ? parts[1] : '';
+    }
+
     // -- Upload via fetch (pas de librairie externe) --
     function headers(extra) {
       return Object.assign({ 'Authorization': 'Bearer ' + SUPABASE_ANON, 'apikey': SUPABASE_ANON }, extra || {});
@@ -261,7 +279,7 @@
     sendBtn.addEventListener('click', function() {
       if (!selectedFile) return;
       var ext = selectedFile.name.split('.').pop();
-      var name = 'photo_' + Date.now() + '_' + Math.random().toString(36).slice(2,6) + '.' + ext;
+      var name = 'photo_' + SESSION_TOKEN + '_' + Date.now() + '_' + Math.random().toString(36).slice(2,6) + '.' + ext;
       sendBtn.disabled = true;
       showMsg('spin', 'Envoi en cours...');
 
@@ -309,10 +327,11 @@
         }
         grid.innerHTML = photos.map(function(f) {
           var url = publicUrl(f.name);
-          return '<div class="grid-item" data-url="' + url + '" data-name="' + f.name + '"><img src="' + url + '" loading="lazy" alt="Photo" /></div>';
+          var mine = tokenFromName(f.name) === SESSION_TOKEN ? '1' : '0';
+          return '<div class="grid-item" data-url="' + url + '" data-name="' + f.name + '" data-mine="' + mine + '"><img src="' + url + '" loading="lazy" alt="Photo" /></div>';
         }).join('');
         grid.querySelectorAll('.grid-item').forEach(function(el) {
-          el.addEventListener('click', function() { openLb(el.dataset.url, el.dataset.name); });
+          el.addEventListener('click', function() { openLb(el.dataset.url, el.dataset.name, el.dataset.mine === '1'); });
         });
       })
       .catch(function(e) {
@@ -327,10 +346,11 @@
     // Lightbox
     var currentUrl = '';
     var currentName = '';
-    function openLb(url, name) {
+    function openLb(url, name, isOwner) {
       currentUrl = url;
       currentName = name;
       document.getElementById('lbImg').src = url;
+      document.getElementById('lbDel').style.display = isOwner ? 'inline-flex' : 'none';
       document.getElementById('lb').classList.add('open');
     }
     function closeLb() {
