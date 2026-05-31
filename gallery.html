@@ -5,509 +5,321 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Galerie — Communion d'Aria 📸</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --ivory: #fdf8f0;
-      --gold: #c9a84c;
-      --gold-light: #e8d5a0;
-      --gold-pale: #f5edd8;
-      --blue: #4a8fa8;
-      --blue-light: #d4eaf3;
-      --text: #3a3028;
-      --text-light: #7a6a5a;
+      --pearl: #FBF7EF;
+      --ivory: #F4ECDE;
+      --gold: #C7A24B;
+      --gold-light: #D9C18A;
+      --gold-pale: #F5EDD8;
+      --blue: #3FA0A8;
+      --blue-deep: #2C7C84;
+      --blue-light: #D4EAF3;
+      --ink: #4A4337;
+      --ink-soft: #7A7263;
+      --white-warm: #FFFDF8;
+      --serif: "Cormorant Garamond", serif;
+      --sans: "Jost", sans-serif;
     }
-
     body {
-      background-color: var(--ivory);
-      color: var(--text);
-      font-family: 'Lato', sans-serif;
+      font-family: var(--sans);
       font-weight: 300;
+      background: var(--pearl);
+      color: var(--ink);
       max-width: 480px;
       margin: 0 auto;
       min-height: 100vh;
     }
 
-    /* ── HEADER ── */
+    /* HEADER */
     .header {
       background: linear-gradient(160deg, #f9f3e8, var(--gold-light));
-      padding: 32px 24px 24px;
+      padding: 32px 24px 28px;
       text-align: center;
     }
-
     .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-light);
-      text-decoration: none;
-      font-size: 0.82rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 16px;
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--ink-soft); text-decoration: none;
+      font-size: 0.82rem; letter-spacing: 0.05em; margin-bottom: 16px;
     }
-
     .header-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 1.9rem;
-      font-weight: 300;
-      color: var(--text);
+      font-family: var(--serif); font-style: italic;
+      font-size: 1.9rem; font-weight: 300; color: var(--ink);
     }
-
     .header-sub {
-      font-size: 0.8rem;
-      color: var(--text-light);
-      letter-spacing: 0.1em;
-      margin-top: 6px;
+      font-size: 0.75rem; color: var(--ink-soft);
+      letter-spacing: 0.15em; text-transform: uppercase; margin-top: 6px;
     }
 
-    /* ── UPLOAD ZONE ── */
+    /* UPLOAD */
     .upload-section {
-      margin: 24px 20px;
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      margin: 20px 16px;
+      background: white; border-radius: 16px;
+      padding: 24px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
       text-align: center;
     }
-
     .upload-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      color: var(--text);
-      margin-bottom: 6px;
+      font-family: var(--serif); font-size: 1.1rem; margin-bottom: 4px;
     }
+    .upload-sub { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 18px; }
 
-    .upload-sub {
-      font-size: 0.8rem;
-      color: var(--text-light);
-      margin-bottom: 18px;
-    }
-
-    .upload-drop {
-      border: 2px dashed var(--gold-light);
-      border-radius: 12px;
-      padding: 28px 20px;
-      cursor: pointer;
+    .drop-zone {
+      border: 2px dashed var(--gold-light); border-radius: 12px;
+      padding: 32px 20px; cursor: pointer; background: var(--ivory);
       transition: all 0.2s;
-      background: var(--ivory);
     }
-
-    .upload-drop:hover, .upload-drop.dragover {
-      border-color: var(--gold);
-      background: var(--gold-pale);
-    }
-
-    .upload-drop-icon { font-size: 2rem; margin-bottom: 8px; }
-
-    .upload-drop-text {
-      font-size: 0.85rem;
-      color: var(--text-light);
-    }
-
-    .upload-drop-text strong { color: var(--blue); }
-
+    .drop-zone:hover, .drop-zone.over { border-color: var(--gold); background: var(--gold-pale); }
+    .drop-zone .icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .drop-zone .hint { font-size: 0.85rem; color: var(--ink-soft); }
+    .drop-zone .hint strong { color: var(--blue); }
     #file-input { display: none; }
 
-    .upload-btn {
-      margin-top: 16px;
-      width: 100%;
-      padding: 12px;
+    .preview-box { display: none; margin-top: 14px; }
+    .preview-box img {
+      width: 100%; max-height: 220px; object-fit: cover;
+      border-radius: 10px; display: block;
+    }
+    .preview-box .fname { font-size: 0.75rem; color: var(--ink-soft); margin-top: 6px; }
+
+    .send-btn {
+      display: none; width: 100%; margin-top: 14px;
+      padding: 13px; border: none; border-radius: 10px; cursor: pointer;
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      border: none;
-      border-radius: 10px;
-      font-family: 'Lato', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: white;
-      cursor: pointer;
+      font-family: var(--sans); font-size: 0.9rem; color: white;
+      font-weight: 400; letter-spacing: 0.04em;
       transition: opacity 0.2s;
-      display: none;
     }
+    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .upload-btn:hover { opacity: 0.85; }
-    .upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .preview-wrap {
-      display: none;
-      margin-top: 14px;
-      position: relative;
+    .msg {
+      margin-top: 12px; padding: 10px 14px; border-radius: 8px;
+      font-size: 0.83rem; text-align: center; display: none;
     }
+    .msg.ok  { background: #e8f5e9; color: #2e7d32; display: block; }
+    .msg.err { background: #fdecea; color: #c62828; display: block; }
+    .msg.spin { background: var(--blue-light); color: var(--blue-deep); display: block; }
 
-    .preview-wrap img {
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-
-    .preview-name {
-      font-size: 0.75rem;
-      color: var(--text-light);
-      margin-top: 6px;
-    }
-
-    /* ── STATUS ── */
-    .status-msg {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      text-align: center;
-      display: none;
-    }
-
-    .status-msg.success {
-      background: #e8f5e9;
-      color: #2e7d32;
-      display: block;
-    }
-
-    .status-msg.error {
-      background: #fdecea;
-      color: #c62828;
-      display: block;
-    }
-
-    .status-msg.loading {
-      background: var(--blue-light);
-      color: var(--blue);
-      display: block;
-    }
-
-    /* ── GALLERY GRID ── */
-    .gallery-section {
-      padding: 0 20px 40px;
-    }
-
-    .gallery-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* GRID */
+    .gallery-section { padding: 0 16px 48px; }
+    .gallery-head {
+      display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 14px;
     }
-
-    .gallery-count {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      color: var(--text);
-    }
-
+    .gallery-count { font-family: var(--serif); font-size: 1.1rem; }
     .refresh-btn {
-      background: none;
-      border: 1px solid var(--blue-light);
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-size: 0.78rem;
-      color: var(--blue);
-      cursor: pointer;
-      transition: background 0.2s;
+      background: none; border: 1px solid var(--blue-light);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: 0.78rem; color: var(--blue); cursor: pointer;
     }
-
-    .refresh-btn:hover { background: var(--blue-light); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .grid-item {
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 1;
-      background: var(--gold-pale);
-      cursor: pointer;
-      transition: transform 0.2s;
+      border-radius: 10px; overflow: hidden; aspect-ratio: 1;
+      background: var(--gold-pale); cursor: pointer;
+    }
+    .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .empty {
+      grid-column: 1/-1; text-align: center;
+      padding: 40px 20px; color: var(--ink-soft); font-size: 0.88rem; line-height: 1.8;
     }
 
-    .grid-item:hover { transform: scale(1.02); }
-
-    .grid-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    /* LIGHTBOX */
+    .lb {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); z-index: 100;
+      align-items: center; justify-content: center; padding: 20px;
     }
-
-    .grid-empty {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-light);
-      font-size: 0.88rem;
-      line-height: 1.8;
-    }
-
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .lightbox.open { display: flex; }
-
-    .lightbox img {
-      max-width: 100%;
-      max-height: 80vh;
-      border-radius: 10px;
-      object-fit: contain;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      font-size: 2rem;
-      color: white;
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
-    }
-
-    /* ── CONFIG BANNER ── */
-    .config-banner {
-      margin: 16px 20px;
-      padding: 14px 18px;
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      color: #856404;
-      display: none;
-    }
-
-    .config-banner code {
-      font-size: 0.75rem;
-      background: rgba(0,0,0,0.08);
-      padding: 1px 5px;
-      border-radius: 3px;
+    .lb.open { display: flex; }
+    .lb img { max-width: 100%; max-height: 82vh; border-radius: 8px; object-fit: contain; }
+    .lb-close {
+      position: absolute; top: 14px; right: 18px;
+      font-size: 2rem; color: white; background: none; border: none; cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <div class="header">
-    <a class="back-link" href="index.html">← Retour à l'invitation</a>
+    <a class="back-link" href="/">← Retour à l'invitation</a>
     <div class="header-title">Galerie photos 📸</div>
-    <div class="header-sub">COMMUNION D'ARIA · 7 JUIN 2026</div>
+    <div class="header-sub">Communion d'Aria · 7 juin 2026</div>
   </div>
 
-  <!-- BANNIÈRE CONFIG (affichée si Supabase non configuré) -->
-  <div class="config-banner" id="config-banner">
-    Galerie non encore configurée. Renseigne <code>SUPABASE_URL</code> et <code>SUPABASE_ANON_KEY</code> dans le script.
-  </div>
-
-  <!-- UPLOAD -->
   <div class="upload-section">
-    <div class="upload-title">✨ Partagez vos photos</div>
-    <div class="upload-sub">Ajoutez vos plus beaux souvenirs de la journée</div>
+    <div class="upload-title">✨ Partagez vos souvenirs</div>
+    <div class="upload-sub">Ajoutez vos plus belles photos de la journée</div>
 
-    <div class="upload-drop" id="drop-zone">
-      <div class="upload-drop-icon">🖼️</div>
-      <div class="upload-drop-text">
-        Appuyez pour choisir une photo<br/>
-        <strong>ou glissez-déposez ici</strong>
-      </div>
+    <div class="drop-zone" id="dropZone">
+      <div class="icon">🖼️</div>
+      <div class="hint">Appuyez pour choisir une photo<br/><strong>ou glissez-déposez ici</strong></div>
     </div>
     <input type="file" id="file-input" accept="image/*" />
 
-    <div class="preview-wrap" id="preview-wrap">
-      <img id="preview-img" src="" alt="Aperçu" />
-      <div class="preview-name" id="preview-name"></div>
+    <div class="preview-box" id="previewBox">
+      <img id="previewImg" src="" alt="Aperçu" />
+      <div class="fname" id="previewName"></div>
     </div>
 
-    <button class="upload-btn" id="upload-btn">Partager cette photo 📤</button>
-    <div class="status-msg" id="status-msg"></div>
+    <button class="send-btn" id="sendBtn">Partager cette photo 📤</button>
+    <div class="msg" id="msg"></div>
   </div>
 
-  <!-- GALERIE -->
   <div class="gallery-section">
-    <div class="gallery-header">
-      <div class="gallery-count" id="gallery-count">📷 Chargement...</div>
-      <button class="refresh-btn" onclick="loadPhotos()">Actualiser</button>
+    <div class="gallery-head">
+      <div class="gallery-count" id="count">📷 Chargement...</div>
+      <button class="refresh-btn" id="refreshBtn">Actualiser</button>
     </div>
-    <div class="grid" id="photo-grid"></div>
+    <div class="grid" id="grid"></div>
   </div>
 
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <img id="lightbox-img" src="" alt="" />
+  <div class="lb" id="lb">
+    <button class="lb-close" id="lbClose">✕</button>
+    <img id="lbImg" src="" alt="" />
   </div>
-
-  <!-- SUPABASE CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    // ──────────────────────────────────────────────────────
-    // CONFIGURATION — à remplir avec tes valeurs Supabase
-    // Récupère ces valeurs dans ton projet Supabase :
-    //   Settings > API > Project URL et anon key
-    // ──────────────────────────────────────────────────────
-    const SUPABASE_URL  = 'https://wkgyhwtfctgbfwtzlgzp.supabase.co';
-    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrZ3lod3RmY3RnYmZ3dHpsZ3pwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5ODA5MjQsImV4cCI6MjA5NTU1NjkyNH0.7yW77QOq6ItTYNEcWNHqdvkQYruWwYzXZOXDT-3w8R8';
-    const BUCKET        = 'communion-aria';
-    // ──────────────────────────────────────────────────────
+    var SUPABASE_URL  = 'https://wkgyhwtfctgbfwtzlgzp.supabase.co';
+    var SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrZ3lod3RmY3RnYmZ3dHpsZ3pwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5ODA5MjQsImV4cCI6MjA5NTU1NjkyNH0.7yW77QOq6ItTYNEcWNHqdvkQYruWwYzXZOXDT-3w8R8';
+    var BUCKET        = 'communion-aria';
+    var BASE          = SUPABASE_URL + '/storage/v1';
 
-    const isConfigured = !SUPABASE_URL.includes('REMPLACER');
-
-    if (!isConfigured) {
-      document.getElementById('config-banner').style.display = 'block';
+    // -- Upload via fetch (pas de librairie externe) --
+    function headers(extra) {
+      return Object.assign({ 'Authorization': 'Bearer ' + SUPABASE_ANON, 'apikey': SUPABASE_ANON }, extra || {});
     }
 
-    const supabase = isConfigured
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON)
-      : null;
+    function publicUrl(name) {
+      return BASE + '/object/public/' + BUCKET + '/' + encodeURIComponent(name);
+    }
 
-    // ── UPLOAD ──────────────────────────────────────────
-    const dropZone   = document.getElementById('drop-zone');
-    const fileInput  = document.getElementById('file-input');
-    const previewWrap = document.getElementById('preview-wrap');
-    const previewImg = document.getElementById('preview-img');
-    const previewName = document.getElementById('preview-name');
-    const uploadBtn  = document.getElementById('upload-btn');
-    const statusMsg  = document.getElementById('status-msg');
+    function showMsg(type, text) {
+      var el = document.getElementById('msg');
+      el.className = 'msg ' + type;
+      el.textContent = text;
+    }
 
-    let selectedFile = null;
+    function hideMsg() {
+      var el = document.getElementById('msg');
+      el.className = 'msg';
+    }
 
-    dropZone.addEventListener('click', () => fileInput.click());
+    // Drop zone
+    var dropZone = document.getElementById('dropZone');
+    var fileInput = document.getElementById('file-input');
+    var previewBox = document.getElementById('previewBox');
+    var previewImg = document.getElementById('previewImg');
+    var previewName = document.getElementById('previewName');
+    var sendBtn = document.getElementById('sendBtn');
+    var selectedFile = null;
 
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('dragover');
+    dropZone.addEventListener('click', function() { fileInput.click(); });
+    dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('over'); });
+    dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('over'); });
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault(); dropZone.classList.remove('over');
+      if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
     });
-
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) handleFile(file);
-    });
-
-    fileInput.addEventListener('change', () => {
+    fileInput.addEventListener('change', function() {
       if (fileInput.files[0]) handleFile(fileInput.files[0]);
     });
 
-    function handleFile(file) {
-      selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e) => {
+    function handleFile(f) {
+      selectedFile = f;
+      var reader = new FileReader();
+      reader.onload = function(e) {
         previewImg.src = e.target.result;
-        previewName.textContent = file.name;
-        previewWrap.style.display = 'block';
-        uploadBtn.style.display = 'block';
+        previewName.textContent = f.name;
+        previewBox.style.display = 'block';
+        sendBtn.style.display = 'block';
+        hideMsg();
       };
-      reader.readAsDataURL(file);
-      hideStatus();
+      reader.readAsDataURL(f);
     }
 
-    uploadBtn.addEventListener('click', async () => {
-      if (!selectedFile || !supabase) return;
+    sendBtn.addEventListener('click', function() {
+      if (!selectedFile) return;
+      var ext = selectedFile.name.split('.').pop();
+      var name = 'photo_' + Date.now() + '_' + Math.random().toString(36).slice(2,6) + '.' + ext;
+      sendBtn.disabled = true;
+      showMsg('spin', 'Envoi en cours...');
 
-      uploadBtn.disabled = true;
-      showStatus('loading', 'Envoi en cours...');
-
-      const ext  = selectedFile.name.split('.').pop();
-      const name = `photo_${Date.now()}_${Math.random().toString(36).slice(2,7)}.${ext}`;
-
-      const { error } = await supabase.storage
-        .from(BUCKET)
-        .upload(name, selectedFile, { cacheControl: '3600', upsert: false });
-
-      if (error) {
-        showStatus('error', 'Erreur lors de l\'envoi. Réessaie.');
-        console.error(error);
-      } else {
-        showStatus('success', 'Photo partagée, merci ! 🎉');
-        previewWrap.style.display = 'none';
-        uploadBtn.style.display = 'none';
-        selectedFile = null;
-        fileInput.value = '';
-        setTimeout(loadPhotos, 800);
-      }
-
-      uploadBtn.disabled = false;
+      fetch(BASE + '/object/' + BUCKET + '/' + encodeURIComponent(name), {
+        method: 'POST',
+        headers: headers({ 'Content-Type': selectedFile.type || 'image/jpeg', 'x-upsert': 'false' }),
+        body: selectedFile
+      })
+      .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+      .then(function(res) {
+        if (res.ok) {
+          showMsg('ok', 'Photo partagée, merci ! 🎉');
+          previewBox.style.display = 'none';
+          sendBtn.style.display = 'none';
+          selectedFile = null;
+          fileInput.value = '';
+          setTimeout(loadPhotos, 800);
+        } else {
+          showMsg('err', 'Erreur : ' + (res.data.error || res.data.message || 'Réessaie'));
+          console.error(res.data);
+        }
+      })
+      .catch(function(e) { showMsg('err', 'Erreur réseau. Réessaie.'); console.error(e); })
+      .finally(function() { sendBtn.disabled = false; });
     });
 
-    function showStatus(type, msg) {
-      statusMsg.className = `status-msg ${type}`;
-      statusMsg.textContent = msg;
-    }
+    // -- Galerie --
+    function loadPhotos() {
+      var countEl = document.getElementById('count');
+      var grid = document.getElementById('grid');
+      countEl.textContent = '📷 Chargement...';
 
-    function hideStatus() {
-      statusMsg.className = 'status-msg';
-    }
-
-    // ── GALERIE ─────────────────────────────────────────
-    async function loadPhotos() {
-      const grid = document.getElementById('photo-grid');
-      const count = document.getElementById('gallery-count');
-
-      if (!supabase) {
-        count.textContent = '📷 0 photo';
-        grid.innerHTML = '<div class="grid-empty">La galerie sera disponible après configuration de Supabase. 🔧</div>';
-        return;
-      }
-
-      const { data, error } = await supabase.storage.from(BUCKET).list('', {
-        limit: 200,
-        sortBy: { column: 'created_at', order: 'desc' }
+      fetch(BASE + '/object/list/' + BUCKET + '?limit=200&offset=0&sortBy=created_at&order=desc', {
+        method: 'POST',
+        headers: headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ prefix: '', limit: 200, offset: 0, sortBy: { column: 'created_at', order: 'desc' } })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(files) {
+        var photos = (files || []).filter(function(f) { return f.name && !f.name.startsWith('.'); });
+        countEl.textContent = '📷 ' + photos.length + ' photo' + (photos.length > 1 ? 's' : '');
+        if (photos.length === 0) {
+          grid.innerHTML = '<div class="empty">Aucune photo encore.<br/>Soyez les premiers à partager ! 🌸</div>';
+          return;
+        }
+        grid.innerHTML = photos.map(function(f) {
+          var url = publicUrl(f.name);
+          return '<div class="grid-item" data-url="' + url + '"><img src="' + url + '" loading="lazy" alt="Photo" /></div>';
+        }).join('');
+        grid.querySelectorAll('.grid-item').forEach(function(el) {
+          el.addEventListener('click', function() { openLb(el.dataset.url); });
+        });
+      })
+      .catch(function(e) {
+        countEl.textContent = '📷 —';
+        grid.innerHTML = '<div class="empty">Impossible de charger les photos.<br/>Vérifie ta connexion.</div>';
+        console.error(e);
       });
+    }
 
-      if (error || !data) {
-        count.textContent = '📷 0 photo';
-        grid.innerHTML = '<div class="grid-empty">Impossible de charger les photos.</div>';
-        return;
+    document.getElementById('refreshBtn').addEventListener('click', loadPhotos);
+
+    // Lightbox
+    function openLb(url) {
+      document.getElementById('lbImg').src = url;
+      document.getElementById('lb').classList.add('open');
+    }
+    document.getElementById('lbClose').addEventListener('click', function() {
+      document.getElementById('lb').classList.remove('open');
+      document.getElementById('lbImg').src = '';
+    });
+    document.getElementById('lb').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('open');
+        document.getElementById('lbImg').src = '';
       }
-
-      const photos = data.filter(f => f.name && !f.name.startsWith('.'));
-      count.textContent = `📷 ${photos.length} photo${photos.length > 1 ? 's' : ''}`;
-
-      if (photos.length === 0) {
-        grid.innerHTML = '<div class="grid-empty">Aucune photo encore.<br/>Soyez les premiers à en partager ! 🌸</div>';
-        return;
-      }
-
-      grid.innerHTML = photos.map(photo => {
-        const { data: { publicUrl } } = supabase.storage.from(BUCKET).getPublicUrl(photo.name);
-        return `
-          <div class="grid-item" onclick="openLightbox('${publicUrl}')">
-            <img src="${publicUrl}" alt="Photo de la communion" loading="lazy" />
-          </div>`;
-      }).join('');
-    }
-
-    // ── LIGHTBOX ─────────────────────────────────────────
-    function openLightbox(url) {
-      document.getElementById('lightbox-img').src = url;
-      document.getElementById('lightbox').classList.add('open');
-    }
-
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('open');
-      document.getElementById('lightbox-img').src = '';
-    }
-
-    document.getElementById('lightbox').addEventListener('click', (e) => {
-      if (e.target === e.currentTarget) closeLightbox();
     });
 
-    // ── INIT ─────────────────────────────────────────────
     loadPhotos();
   </script>
-
 </body>
 </html>
