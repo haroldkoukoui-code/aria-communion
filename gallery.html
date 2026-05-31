@@ -137,14 +137,22 @@
       position: absolute; top: 14px; right: 18px;
       font-size: 2rem; color: white; background: none; border: none; cursor: pointer;
     }
+    .lb-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
     .lb-dl {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 11px 24px; border-radius: 30px; border: none; cursor: pointer;
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
       font-family: var(--sans); font-size: 0.88rem; color: white;
-      font-weight: 400; letter-spacing: 0.04em; text-decoration: none;
+      font-weight: 400; letter-spacing: 0.04em;
     }
-    .lb-dl:disabled { opacity: 0.5; cursor: not-allowed; }
+    .lb-del {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px; border-radius: 30px; cursor: pointer;
+      background: none; border: 1px solid rgba(255,255,255,0.35);
+      font-family: var(--sans); font-size: 0.88rem; color: rgba(255,255,255,0.85);
+      font-weight: 400; letter-spacing: 0.04em;
+    }
+    .lb-dl:disabled, .lb-del:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -185,7 +193,10 @@
   <div class="lb" id="lb">
     <button class="lb-close" id="lbClose">✕</button>
     <img id="lbImg" src="" alt="" />
-    <button class="lb-dl" id="lbDl">⬇️ Enregistrer la photo</button>
+    <div class="lb-actions">
+      <button class="lb-dl" id="lbDl">⬇️ Enregistrer</button>
+      <button class="lb-del" id="lbDel">🗑️ Supprimer</button>
+    </div>
   </div>
 
   <script>
@@ -298,10 +309,10 @@
         }
         grid.innerHTML = photos.map(function(f) {
           var url = publicUrl(f.name);
-          return '<div class="grid-item" data-url="' + url + '"><img src="' + url + '" loading="lazy" alt="Photo" /></div>';
+          return '<div class="grid-item" data-url="' + url + '" data-name="' + f.name + '"><img src="' + url + '" loading="lazy" alt="Photo" /></div>';
         }).join('');
         grid.querySelectorAll('.grid-item').forEach(function(el) {
-          el.addEventListener('click', function() { openLb(el.dataset.url); });
+          el.addEventListener('click', function() { openLb(el.dataset.url, el.dataset.name); });
         });
       })
       .catch(function(e) {
@@ -315,8 +326,10 @@
 
     // Lightbox
     var currentUrl = '';
-    function openLb(url) {
+    var currentName = '';
+    function openLb(url, name) {
       currentUrl = url;
+      currentName = name;
       document.getElementById('lbImg').src = url;
       document.getElementById('lb').classList.add('open');
     }
@@ -324,6 +337,7 @@
       document.getElementById('lb').classList.remove('open');
       document.getElementById('lbImg').src = '';
       currentUrl = '';
+      currentName = '';
     }
     document.getElementById('lbClose').addEventListener('click', closeLb);
     document.getElementById('lb').addEventListener('click', function(e) {
@@ -349,7 +363,30 @@
           URL.revokeObjectURL(a.href);
         })
         .catch(function() { alert('Impossible de télécharger. Fais un appui long sur la photo.'); })
-        .finally(function() { btn.disabled = false; btn.textContent = '⬇️ Enregistrer la photo'; });
+        .finally(function() { btn.disabled = false; btn.textContent = '⬇️ Enregistrer'; });
+    });
+
+    // Suppression
+    document.getElementById('lbDel').addEventListener('click', function() {
+      if (!currentName) return;
+      if (!confirm('Supprimer cette photo définitivement ?')) return;
+      var btn = this;
+      btn.disabled = true;
+      btn.textContent = 'Suppression...';
+      fetch(BASE + '/object/' + BUCKET + '/' + encodeURIComponent(currentName), {
+        method: 'DELETE',
+        headers: headers()
+      })
+      .then(function(r) {
+        if (r.ok) {
+          closeLb();
+          loadPhotos();
+        } else {
+          return r.json().then(function(d) { throw new Error(d.error || d.message || 'Erreur'); });
+        }
+      })
+      .catch(function(e) { alert('Impossible de supprimer : ' + e.message); })
+      .finally(function() { btn.disabled = false; btn.textContent = '🗑️ Supprimer'; });
     });
 
     loadPhotos();
